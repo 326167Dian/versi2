@@ -1,5 +1,6 @@
 <?php
 include "../configurasi/koneksi.php";
+include "../configurasi/fungsi_indotgl.php";
 session_start();
 if (!empty($_SESSION['namauser']) and !empty($_SESSION['passuser'])) {
   echo "<script type='text/javascript'>window.location='media_admin.php?module=home'</script>";
@@ -69,7 +70,10 @@ if (!empty($_SESSION['namauser']) and !empty($_SESSION['passuser'])) {
           <div class="col-xs-4"></div>
         </div>
       </form>
-      <center>BEKASI 17 AGUSTUS 2025</center>
+      <?php
+      $saatini = tgl_indo(date('Y-m-d'));
+      ?>
+      <center>BEKASI, <?= $saatini ?></center>
      
 
 
