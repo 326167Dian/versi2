@@ -28,15 +28,15 @@ $posisigaris = $ukuran2 + $tambahukuran;
 
 //$pdf = new FPDF("P","cm","A4");
 $pdf = new FPDF("P", "cm", array($tinggikertas, 7.5));
-$pdf->SetMargins(-0.3, -0.8, 0);
+$pdf->SetMargins(0.3,0.1, 0);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
 //$pdf->Image('../../images/mmd.jpg',1,1.5,5,2);
 //HEADER 1
-$pdf->Line(0, 2.7, 8, 2.7); //horisontal bawah
+$pdf->Line(0, 3.5, 8, 3.5); //horisontal bawah
 
-$pdf->Line(0, 4.9, 8, 4.9); //judul tabel atas
+$pdf->Line(0, 5.7, 8, 5.7); //judul tabel atas
 
 
 
@@ -109,7 +109,7 @@ while ($r2 = mysqli_fetch_array($query)) {
 	$pdf->SetX(0.6);
 
 	$pdf->Cell(3, 0.4, "Resep / Racikan Nomor " . $r2['kd_trkasir'], 0, 1, 'L');
-	$pdf->Cell(2, 0.4, '1', 0, 0, 'R');
+	$pdf->Cell(1.3, 0.4, '1', 0, 0, 'R');
 	$pdf->Cell(2.6, 0.4, 'Unit', 0, 0, 'C');
 	$pdf->Cell(1.5, 0.4, format_rupiah($r2['ttl_trkasir']), 0, 0, 'R');
 	$pdf->Cell(1.7, 0.4, format_rupiah($r2['ttl_trkasir']), 0, 1, 'R');

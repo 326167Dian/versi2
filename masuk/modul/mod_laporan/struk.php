@@ -44,19 +44,19 @@ $text = substr($rh['satu'], 7,);
 
 $pdf->ln(1.3);
 $pdf->SetFont('Arial','B', 10);
-$pdf->Cell(4.6, 0.4, 'APOTEK', 0, 1, 'C');
+$pdf->Cell(5, 0.4, 'APOTEK', 0, 1, 'C');
 $pdf->SetFont('Arial','B', 10);
-$pdf->Cell(4.6, 0.4, $text, 0, 1, 'C');
+$pdf->Cell(5, 0.4, $text, 0, 1, 'C');
 $pdf->SetFont('Arial', 'B', 8);
-$pdf->Cell(4.6, 0.4, $rh['dua'], 0, 1, 'C');
+$pdf->Cell(5, 0.4, $rh['dua'], 0, 1, 'C');
 $pdf->SetFont('Arial', 'B', 8);
-$pdf->Cell(4.6, 0.4, $rh['tiga'], 0, 1, 'C');
-$pdf->Cell(4.6, 0.3, $rh['empat'], 0, 1, 'C');
+$pdf->Cell(5, 0.4, $rh['tiga'], 0, 1, 'C');
+$pdf->Cell(5, 0.3, $rh['empat'], 0, 1, 'C');
 $pdf->SetFont('Arial', 'B', 8);
-$pdf->Cell(4.6, 0.3, $rh['lima'], 0, 1, 'C');
+$pdf->Cell(5, 0.3, $rh['lima'], 0, 1, 'C');
 $pdf->SetFont('Arial', 'B', 8);
-$pdf->Cell(4.6, 0.3, $rh['enam'], 0, 1, 'C');
-$pdf->Cell(4.6, 0.5, $rh['tujuh'], 0, 1, 'C');
+$pdf->Cell(5, 0.3, $rh['enam'], 0, 1, 'C');
+$pdf->Cell(5, 0.5, $rh['tujuh'], 0, 1, 'C');
 
 //KIRI 1
 $pdf->ln(0.2);
