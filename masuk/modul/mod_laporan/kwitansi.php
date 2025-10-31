@@ -38,7 +38,9 @@ $pdf->TextWithDirection(2.8,5.7,$rh['tiga'],'U');
 $pdf->TextWithDirection(3.1,5.7,$rh['tujuh'],'U');
 // $pdf->Image('../../images/logo90.png',1.2,5.8,2.5,2.0,'');
 $myImage = "../../images/".$rh['logo'];
-$pdf->Image($myImage,1.2,5.8,2.5,2.0,'');
+//$pdf->Image($myImage,1.2,5.8,2.5,2.0,'');
+$pdf->RotatedImage($myImage, 1.2, 7.8, 2.0, 2.0, -270);
+
 
 
 $pdf->SetLineWidth(0.1);
