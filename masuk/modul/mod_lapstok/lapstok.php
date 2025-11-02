@@ -177,6 +177,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
                             </tr>
                         </tfoot>
                     </table>
+                    <a class='btn btn-primary' href='?module=lapstok&act=kritis30'>PROSES UPDATE DATABASE</a><br><br>
                 </div>
             </div>
 
@@ -281,6 +282,69 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
             </script>
         <?php
 
+            break;
+            case "kritis30":
+
+            //$tampil_barang = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM barang where stok_barang <= stok_buffer ORDER BY barang.stok_barang ");
+
+            ?>
+
+
+            <div class="box box-primary box-solid table-responsive">
+                <div class="box-header with-border">
+                    <h3 class="box-title">ANALISA STOK</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div><!-- /.box-tools -->
+                </div>
+                <div class="box-body table-responsive">
+                    <!--<a  class ='btn  btn-success btn-flat' href='?module=barang&act=tambah'>TAMBAH</a>-->
+                    <a class='btn  btn-success btn-flat' href='modul/mod_laporan/cetak_lapstok_excel.php' target='_blank'>EXPORT TO EXCEL</a>
+                    <br><br>
+
+                    <?php
+
+                    $query1 = $db->query("select * from barang left join trbmasuk_detail on(barang.id_barang=trbmasuk_detail.id_barang) 
+                                  where trbmasuk_detail.kd_trbmasuk is not null group by barang.id_barang order by barang.nm_barang asc ");
+                    while($r= $query1->fetch_array())
+                    {
+                        $t30 = $r['kd_barang'];
+                        $tgl_awal = date('Y-m-d');
+                        $tgl_akhir = date('Y-m-d', strtotime('-30 days', strtotime( $tgl_awal)));
+                        $tgl_awal2 = date('Y-m-d', strtotime('-31 days', strtotime( $tgl_awal)));
+                        $tgl_akhir2 = date('Y-m-d', strtotime('-60 days', strtotime( $tgl_awal)));
+
+                        $pass = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT 
+                                            count(trkasir.kd_trkasir) as t30, 
+                                            sum(trkasir_detail.qty_dtrkasir) as q30,
+                                            trkasir_detail.kd_barang FROM trkasir JOIN trkasir_detail
+                                        ON (trkasir.kd_trkasir=trkasir_detail.kd_trkasir)
+                                        WHERE trkasir_detail.kd_barang = '$t30' AND (tgl_trkasir BETWEEN '$tgl_akhir' and '$tgl_awal')");
+                        $pass1 = mysqli_fetch_array($pass);
+                        $pass2 = $pass1['t30'];
+                        $pass3 = $pass1['q30'];
+
+                        $bln = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(trkasir.kd_trkasir) as t60 FROM trkasir JOIN trkasir_detail
+                                        ON (trkasir.kd_trkasir=trkasir_detail.kd_trkasir)
+                                        WHERE trkasir_detail.kd_barang = '$pass1[kd_barang]' AND (tgl_trkasir BETWEEN '$tgl_akhir2' and '$tgl_awal2')");
+                        $bln2 = mysqli_fetch_array($bln);
+                        $bln3 = $bln2['t60'];
+                        $gr =  intval(round(($pass3/$bln3*100)));
+
+
+                        mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE barang SET
+                                    t30 = '$pass2',
+									t60 = '$bln3',
+									gr	= '$gr',								
+									q30 = '$pass3'									
+									WHERE kd_barang = '$r[kd_barang]'");                        }
+                    header('location:../../media_admin.php?module=lapstok&act=default');
+
+
+                    ?>
+                </div>
+            </div>
+            <?php
             break;
 
         case "laku":
