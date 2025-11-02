@@ -120,7 +120,7 @@ while ($lihat = mysqli_fetch_array($query1)) {
 $pdf->ln(1.5);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(5, 0, '', 0, 0, 'R');
-$pdf->Cell(9, 0, 'Purwakarta, ' . tgl_indo(date("Y-m-d")), 0, 1, 'C');
+$pdf->Cell(9, 0, $rh['tigabelas'].', ' . tgl_indo(date("Y-m-d")), 0, 1, 'C');
 
 $pdf->ln(0.4);
 $pdf->SetFont('Arial', '', 10);

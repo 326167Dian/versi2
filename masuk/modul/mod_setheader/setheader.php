@@ -81,6 +81,13 @@ switch($_GET[act]){
 										<input type=text name='duabelas' class='form-control' value='$r[duabelas]' autocomplete='off'>
 									 </div>
 							  </div>
+
+							  <div class='form-group'>
+									<label class='col-sm-3 control-label'>Kota</label>        		
+									 <div class='col-sm-6'>
+										<input type=text name='tigabelas' class='form-control' value='$r[tigabelas]' autocomplete='off'>
+									 </div>
+							  </div>
 							  
 							  <div class='form-group'>
 									<label class='col-sm-3 control-label'>Logo Header</label>        		

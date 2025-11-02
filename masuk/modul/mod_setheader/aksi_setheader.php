@@ -41,6 +41,7 @@ if ($module=='setheader' AND $act=='update_setheader'){
         										sepuluh     = '$_POST[sepuluh]',
         										sebelas     = '$_POST[sebelas]',
         										duabelas    = '$_POST[duabelas]',
+        										tigabelas   = '$_POST[tigabelas]',
         										logo        = '$fupload_name'
         									WHERE id_setheader = '$_POST[id]'");
 									

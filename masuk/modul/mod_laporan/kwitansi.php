@@ -92,7 +92,7 @@ $pdf->ln(0.5);
 $pdf->SetFont('Arial','', 12);
 $pdf->Cell(3.5, 0.5,'', 0, 0, 'R');
 $pdf->Cell(7, 0.5,'', 0, 0, 'L');
-$pdf->Cell(7, 0.5,'Purwakarta, '.tgl_indo($lihat['tgl_trkasir']), 0, 1, 'C');
+$pdf->Cell(7, 0.5,$rh['tigabelas'].', '.tgl_indo($lihat['tgl_trkasir']), 0, 1, 'C');
 
 $pdf->ln(2);
 $pdf->SetFont('Arial','', 12);

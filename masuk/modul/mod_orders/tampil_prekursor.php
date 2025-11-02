@@ -282,7 +282,7 @@ $pdf->Cell(10, 0,$rh['lima'] , 0, 1, 'L');
 $pdf->ln(1);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(10, 0, '', 0, 0, 'R');
-$pdf->Cell(9, 0, 'Purwakarta, ' . tgl_indo($res['tgl_trbmasuk']), 0, 1, 'C');
+$pdf->Cell(9, 0, $rh['tigabelas'].', ' . tgl_indo($res['tgl_trbmasuk']), 0, 1, 'C');
 
 $pdf->ln(0.4);
 $pdf->SetFont('Arial', '', 10);
