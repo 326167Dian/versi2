@@ -558,18 +558,19 @@ CREATE TABLE `satuan` (
 
 CREATE TABLE `setheader` (
   `id_setheader` int(11) NOT NULL,
-  `satu` varchar(111) NOT NULL DEFAULT 'WWW.BUTIKWALLPAPER.COM',
-  `dua` varchar(111) NOT NULL DEFAULT 'Spesialis Wallpaper Dinding',
-  `tiga` varchar(111) NOT NULL DEFAULT 'CABANG',
-  `empat` varchar(111) NOT NULL,
-  `lima` varchar(111) NOT NULL,
-  `enam` varchar(111) NOT NULL DEFAULT 'HP / WA : 0812 7277 6181 / 0813 3866 0225',
-  `tujuh` varchar(111) DEFAULT NULL,
+  `satu` varchar(111) NOT NULL DEFAULT 'Nama Apotek',
+  `dua` varchar(111) NOT NULL DEFAULT 'Alamat Jalan',
+  `tiga` varchar(111) NOT NULL DEFAULT 'Nama Kelurahan',
+  `empat` varchar(111) NOT NULL DEFAULT 'Nama Apoteker',
+  `lima` varchar(111) NOT NULL DEFAULT 'No izin Apotek ',
+  `enam` varchar(111) NOT NULL DEFAULT 'no telp apotek',
+  `tujuh` varchar(111) DEFAULT NULL DEFAULT 'SIPA APOTEK',
   `delapan` varchar(100) NOT NULL DEFAULT 'Terima Kasih Semoga Tetap Jadi Langganan',
   `sembilan` varchar(100) NOT NULL DEFAULT 'PERHATIAN !!!',
   `sepuluh` varchar(100) NOT NULL DEFAULT 'Barang yang sudah dibeli tidak dapat ditukar',
   `sebelas` varchar(100) NOT NULL DEFAULT 'atau dikembalikan kecuali ada perjanjian',
-  `duabelas` varchar(100) NOT NULL,
+  `duabelas` varchar(100) NOT NULL DEFAULT 'belum jelas',
+  `tigabelas` varchar(100) NOT NULL DEFAULT 'Kota Apotek',
   `logo` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
