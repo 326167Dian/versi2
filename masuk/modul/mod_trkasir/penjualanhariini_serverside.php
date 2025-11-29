@@ -36,11 +36,78 @@ if ($_GET['action'] == "table_data") {
     $order = $columns[$_POST['order']['0']['column']];
     $dir = $_POST['order']['0']['dir'];
 
+    $totalKasir = "";
+    $totalTunai = "";
+    $totalTunaiPagi = "";
+    $totalTunaiSore = "";
+    $totalTransfer = "";
+    $totalTransferPagi = "";
+    $totalTransferSore = "";
     if (empty($_POST['search']['value'])) {
         $query = $db->query("SELECT * FROM trkasir a 
             JOIN carabayar b ON (a.id_carabayar=b.id_carabayar) 
             WHERE a.tgl_trkasir='$tgl_awal'
             ORDER BY a.id_trkasir DESC LIMIT $limit OFFSET $start");
+        
+        //Total Kasir
+        $total = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                            FROM trkasir
+                            WHERE tgl_trkasir = '$tgl_awal'");
+        $ttlKasir = $total->fetch_array();
+        $totalKasir = $ttlKasir['ttl_trkasir'];
+
+        //Total Tunai        
+        $total_tunai = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                            FROM trkasir
+                            WHERE tgl_trkasir = '$tgl_awal'
+                            AND id_carabayar = '1'");
+        $ttl_tunai = $total_tunai->fetch_array();
+        $totalTunai = $ttl_tunai['ttl_trkasir'];
+        
+        //Total Tunai Pagi
+        $total_tunaipagi = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                            FROM trkasir
+                            WHERE tgl_trkasir = '$tgl_awal'
+                            AND id_carabayar = '1'
+                            AND shift = '1'");
+        $ttl_tunaipagi = $total_tunaipagi->fetch_array();
+        $totalTunaiPagi = $ttl_tunaipagi['ttl_trkasir'];
+
+        //Total Tunai Sore        
+        $total_tunaisore = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                            FROM trkasir
+                            WHERE tgl_trkasir = '$tgl_awal'
+                            AND id_carabayar = '1'
+                            AND shift = '2'");
+        $ttl_tunaisore = $total_tunaisore->fetch_array();
+        $totalTunaiSore = $ttl_tunaisore['ttl_trkasir'];
+        
+        //Total Transfer        
+        $total_transfer = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                            FROM trkasir
+                            WHERE tgl_trkasir = '$tgl_awal'
+                            AND id_carabayar = '2'");
+        $ttl_transfer = $total_transfer->fetch_array();
+        $totalTransfer = $ttl_transfer['ttl_trkasir'];
+        
+        //Total Tunai Pagi
+        $total_transferpagi = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                            FROM trkasir
+                            WHERE tgl_trkasir = '$tgl_awal'
+                            AND id_carabayar = '2'
+                            AND shift = '1'");
+        $ttl_transferpagi = $total_transferpagi->fetch_array();
+        $totalTransferPagi = $ttl_transferpagi['ttl_trkasir'];
+
+        //Total Tunai Sore        
+        $total_transfersore = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                            FROM trkasir
+                            WHERE tgl_trkasir = '$tgl_awal'
+                            AND id_carabayar = '2'
+                            AND shift = '2'");
+        $ttl_transfersore = $total_transfersore->fetch_array();
+        $totalTransferSore = $ttl_transfersore['ttl_trkasir'];
+        
     } else {
         $search = $_POST['search']['value'];
         $query = $db->query("SELECT * FROM trkasir a 
@@ -70,12 +137,153 @@ if ($_GET['action'] == "table_data") {
                         OR a.nm_pelanggan LIKE '%$search%'
                         OR a.kodetx LIKE '%$search%'
                         OR b.nm_carabayar LIKE '%$search%')");
-
+        
         $datacount = $querycount->fetch_array();
         $totalFiltered = $datacount['jumlah'];
+        
+        $tugas = $db->query("SELECT * FROM admin 
+                            WHERE username != 'bengkel' 
+                            AND nama_lengkap LIKE '%$search%' ORDER BY id_admin ASC");
+        if ($tugas->num_rows > 0) {
+                             
+            $dataPetugas = [];
+            while($pt = $tugas->fetch_array()){
+                $dataPetugas[] = $pt['nama_lengkap'];
+            }
+            
+            // Ubah menjadi format string yang diinginkan
+            $petugas = '("' . implode('", "', $dataPetugas) . '")';
+            
+            // Total Kasir
+            $total = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND petugas IN $petugas");
+            $ttlKasir = $total->fetch_array();
+            $totalKasir = $ttlKasir['ttl_trkasir'];
+            
+            //Total Tunai        
+            $total_tunai = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '1'
+                                AND petugas IN $petugas");
+            $ttl_tunai = $total_tunai->fetch_array();
+            $totalTunai = $ttl_tunai['ttl_trkasir'];
+            
+            //Total Tunai Pagi
+            $total_tunaipagi = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '1'
+                                AND shift = '1'
+                                AND petugas IN $petugas");
+            $ttl_tunaipagi = $total_tunaipagi->fetch_array();
+            $totalTunaiPagi = $ttl_tunaipagi['ttl_trkasir'];
+    
+            //Total Tunai Sore        
+            $total_tunaisore = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '1'
+                                AND shift = '2'
+                                AND petugas IN $petugas");
+            $ttl_tunaisore = $total_tunaisore->fetch_array();
+            $totalTunaiSore = $ttl_tunaisore['ttl_trkasir'];
+            
+            //Total Transfer        
+            $total_transfer = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '2'
+                                AND petugas IN $petugas");
+            $ttl_transfer = $total_transfer->fetch_array();
+            $totalTransfer = $ttl_transfer['ttl_trkasir'];
+            
+            //Total Tunai Pagi
+            $total_transferpagi = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '2'
+                                AND shift = '1'
+                                AND petugas IN $petugas");
+            $ttl_transferpagi = $total_transferpagi->fetch_array();
+            $totalTransferPagi = $ttl_transferpagi['ttl_trkasir'];
+    
+            //Total Tunai Sore        
+            $total_transfersore = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '2'
+                                AND shift = '2'
+                                AND petugas IN $petugas");
+            $ttl_transfersore = $total_transfersore->fetch_array();
+            $totalTransferSore = $ttl_transfersore['ttl_trkasir'];
+        } else {
+            //Total Kasir
+            $total = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'");
+            $ttlKasir = $total->fetch_array();
+            $totalKasir = $ttlKasir['ttl_trkasir'];
+    
+            //Total Tunai        
+            $total_tunai = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '1'");
+            $ttl_tunai = $total_tunai->fetch_array();
+            $totalTunai = $ttl_tunai['ttl_trkasir'];
+            
+            //Total Tunai Pagi
+            $total_tunaipagi = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '1'
+                                AND shift = '1'");
+            $ttl_tunaipagi = $total_tunaipagi->fetch_array();
+            $totalTunaiPagi = $ttl_tunaipagi['ttl_trkasir'];
+    
+            //Total Tunai Sore        
+            $total_tunaisore = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '1'
+                                AND shift = '2'");
+            $ttl_tunaisore = $total_tunaisore->fetch_array();
+            $totalTunaiSore = $ttl_tunaisore['ttl_trkasir'];
+            
+            //Total Transfer        
+            $total_transfer = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '2'");
+            $ttl_transfer = $total_transfer->fetch_array();
+            $totalTransfer = $ttl_transfer['ttl_trkasir'];
+            
+            //Total Tunai Pagi
+            $total_transferpagi = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '2'
+                                AND shift = '1'");
+            $ttl_transferpagi = $total_transferpagi->fetch_array();
+            $totalTransferPagi = $ttl_transferpagi['ttl_trkasir'];
+    
+            //Total Tunai Sore        
+            $total_transfersore = $db->query("SELECT SUM(ttl_trkasir) as ttl_trkasir
+                                FROM trkasir
+                                WHERE tgl_trkasir = '$tgl_awal'
+                                AND id_carabayar = '2'
+                                AND shift = '2'");
+            $ttl_transfersore = $total_transfersore->fetch_array();
+            $totalTransferSore = $ttl_transfersore['ttl_trkasir'];
+            
+        }
     }
 
     $data = array();
+    
     if (!empty($query)) {
         $no = $start + 1;
         while ($value = $query->fetch_array()) {
@@ -132,17 +340,24 @@ if ($_GET['action'] == "table_data") {
             }
             
             
-            
             $data[] = $nestedData;
             $no++;
         }
     }
 
     $json_data = [
-        "draw"            => intval($_POST['draw']),
-        "recordsTotal"    => intval($totalData),
-        "recordsFiltered" => intval($totalFiltered),
-        "data"            => $data
+        "draw"              => intval($_POST['draw']),
+        "recordsTotal"      => intval($totalData),
+        "recordsFiltered"   => intval($totalFiltered),
+        "data"              => $data,
+        "totalKasir"        => intval($totalKasir),
+        "totalTunai"        => intval($totalTunai),
+        "totalTunaiPagi"    => intval($totalTunaiPagi),
+        "totalTunaiSore"    => intval($totalTunaiSore),
+        "totalTransfer"     => intval($totalTransfer),
+        "totalTransferPagi" => intval($totalTransferPagi),
+        "totalTransferSore" => intval($totalTransferSore),
+        // "totalTempo"        => intval($totalTempo)
     ];
 
     echo json_encode($json_data);

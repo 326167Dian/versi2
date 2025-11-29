@@ -155,6 +155,7 @@ $username = mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_POST['userna
                     $_SESSION['kartustok'] = $r['kartustok'];
                     $_SESSION['catatan'] = $r['catatan'];
                     $_SESSION['cekdarah'] = $r['cekdarah'];
+                    $_SESSION['jurnalkas'] = $r['jurnalkas'];
                 
                     // session timeout
                     $_SESSION['login'] = 1;

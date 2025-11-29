@@ -219,6 +219,7 @@ if ($_SESSION['login'] == 0) {
 									<?php if ($_SESSION['soharian'] == "Y") { ?><li><a href="?module=soharian"><i class='glyphicon glyphicon-print'></i> Stok Opname Harian</a></li><?php } ?>
 									<?php if ($_SESSION['koreksistok'] == "Y") { ?><li><a href="?module=koreksistok"><i class='glyphicon glyphicon-pencil'></i> Koreksi Stok</a></li><?php } ?>
 								    <?php if ($_SESSION['kartustok'] == "Y") { ?><li><a href="?module=kartustok"><i class='glyphicon glyphicon-transfer'></i> Kartu Stok</a></li><?php } ?>
+								    <?php if ($_SESSION['jurnalkas'] == "Y") { ?><li><a href="?module=jurnalkas"><i class='glyphicon glyphicon-usd'></i> Jurnal Kas</a></li><?php } ?>
                                 </ul>
 							</li>
 							<li class="treeview">
@@ -235,7 +236,6 @@ if ($_SESSION['login'] == 0) {
 									<?php if ($_SESSION['tpk'] == "Y") { ?><li><a href="?module=trkasir"><i class="glyphicon glyphicon-inbox"></i> Penjualan/Kasir</a></li><?php } ?>
 									<?php if ($_SESSION['penjualansebelum'] == "Y") { ?><li><a href="?module=penjualansebelumnya"><i class="glyphicon glyphicon-inbox"></i> Edit/Retur/Hapus Penjualan</a></li><?php } ?>
 									<?php if ($_SESSION['catatan'] == "Y") { ?><li><a href="?module=catatan"><i class='glyphicon glyphicon-pencil'></i> Catatan</a></li><?php } ?>
-									<?php if ($_SESSION['jurnalkas'] == "Y") { ?><li><a href="?module=jurnalkas"><i class='glyphicon glyphicon-usd'></i> Jurnal Kas</a></li><?php } ?>
 								</ul>
 							</li>
 
