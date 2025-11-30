@@ -625,9 +625,17 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 									 
 									<label class='col-sm-4 control-label'>Nama Barang</label>        		
 											<div class='col-sm-7'>
-													<input type=text name='nmbrg_dtrkasir' id='nmbrg_dtrkasir' class='form-control' autocomplete='off'>
-											</div>
-											
+    											<div class='btn-group btn-group-justified' role='group' aria-label='...'>
+                                                    <div class='btn-group' role='group'>
+    											        <input type=text name='nmbrg_dtrkasir' id='nmbrg_dtrkasir' class='typeahead form-control' autocomplete='off'>
+                                                        
+                                                    </div>
+                                                    <div class='btn-group' role='group'>
+                                                        <button type='button' class='btn btn-primary' id='nmbrg_dtrkasir_enter'>Enter</button>
+                                                    </div>
+                                                </div>
+    										</div>
+    										
 									<label class='col-sm-4 control-label'>ETALASE</label>        		
 											<div class='col-sm-7'>
 													<select class='form-control' name='jenisobat' id='jenisobat'>
