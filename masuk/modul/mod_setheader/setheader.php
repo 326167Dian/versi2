@@ -93,9 +93,20 @@ switch($_GET[act]){
 									<label class='col-sm-3 control-label'>Logo Header</label>        		
 									 <div class='col-sm-6'>
 										<input type='file' name='fupload1' class='form-control' value='$r[logo]' autocomplete='off'>
-									 </div>
+									 </div> <br>
+                                    	
 							  </div>
-							  
+							  ";
+                                      if (!empty($r['logo'])) {
+                                        echo "
+                                            <img src='images/$r[logo]'
+                                                 style='display:block; margin:10px auto; max-width:100px; border:1px solid #ccc;'
+                                                 alt='User Image'>
+                                        ";
+                                     }
+
+
+							    echo"
 							  <h3 class='box-title'>FOOTER STRUK</h3>
 							  <legend class='scheduler-border'></legend>
 							  
@@ -119,6 +130,7 @@ switch($_GET[act]){
 										<input type=text name='sepuluh' class='form-control' value='$r[sepuluh]' autocomplete='off'>
 									 </div>
 							  </div>
+							  
 							  
 							  <div class='form-group'>
 									<label class='col-sm-2 control-label'>Baris 4</label>        		
