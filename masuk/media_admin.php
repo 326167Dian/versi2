@@ -79,7 +79,7 @@ if ($_SESSION['login'] == 0) {
 			<script type="text/javascript" src="js/jquery-ui.js"></script>
 			<script type="text/javascript" src="js/tabcontent.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<script>
 				$(function() {
 					$("#tabs").tabs();
@@ -333,6 +333,8 @@ if ($_SESSION['login'] == 0) {
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
 <!-- page script -->
 <script>
 	$(function() {

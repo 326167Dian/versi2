@@ -1991,6 +1991,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
         var diskon2 = document.getElementById('diskon2').value;
         var dp_bayar = document.getElementById('dp_bayar').value;
         var sisa_bayar = document.getElementById('sisa_bayar').value;
+        
         var ket_trkasir = document.getElementById('ket_trkasir').value;
         var stt_aksi = document.getElementById('stt_aksi').value;
         var id_carabayar = document.getElementById('id_carabayar').value;

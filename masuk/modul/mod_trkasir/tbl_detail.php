@@ -133,7 +133,7 @@ color: white;
 								<div class='text-right'>
 									<label class='col-sm-6 control-label'>SUB TOTAL</label>        		
 									 <div class='col-sm-6'>
-										<input type='text' name='ttl_trkasir' id='ttl_trkasir' value='$grandnya' class='form-control input-validation-error' style='font-size: 18px; color: #fff; font-weight: bold; text-align: right; background: #000000;' autocomplete='off'>
+										<input type='text' name='ttl_trkasir' id='ttl_trkasir' value='$grandnya' class='form-control input-validation-error' style='font-size: 18px; color: #fff; font-weight: bold; text-align: right; background: #000000;' autocomplete='off' >
 									 </div>
 								</div>
 								
@@ -199,7 +199,7 @@ color: white;
 								<div class='text-right'>
 									<label class='col-sm-6 control-label'>KEMBALIAN</label>        		
 									 <div class='col-sm-6'>
-										<input type='text' name='sisa_bayar' id='sisa_bayar' class='form-control' style='font-size: 18px; color: #fff; font-weight: bold; text-align: right; background: #000000;' autocomplete='off'>
+										<input type='text' name='sisa_bayar' id='sisa_bayar' class='form-control' style='font-size: 18px; color: #fff; font-weight: bold; text-align: right; background: #000000;' autocomplete='off' readonly>
 									 </div>
 								</div>
 								
@@ -215,19 +215,33 @@ $(document).ready(function () {
         hitungdiskon();
         hitungdiskon2();
         $("#example5").DataTable();
+        
+        $('#dp_bayar').mask('000.000.000', {reverse: true});
     });
 
 		
 		
 		//hitung dp
 		$('#dp_bayar').keydown(function(e) {
-		if (e.which == 13) { // e.which == 13 merupakan kode yang mendeteksi ketika anda   // menekan tombol enter di keyboard
-			//letakan fungsi anda disini
-   
-			HitungOngkirDanDP();
-				
-		}
+    		if (e.which == 13) { // e.which == 13 merupakan kode yang mendeteksi ketika anda   // menekan tombol enter di keyboard
+    			//letakan fungsi anda disini
+    			var ttl_trkasir = document.getElementById('ttl_trkasir').value;
+			    ttl_trkasir = ttl_trkasir.replace(/\./g, "");
+    			ttl_trkasir = parseInt(ttl_trkasir);
+    			
+                var dp_bayar = document.getElementById('dp_bayar').value;
+			    dp_bayar = dp_bayar.replace(/\./g, "");
+			    dp_bayar = parseInt(dp_bayar);
+			    
+			    if(dp_bayar < ttl_trkasir){
+    			    alert(' Jumlah bayar lebih kecil dari Total Bayar..');
+    			}
+    			HitungOngkirDanDP();
+    				
+    		}
 		});
+		
+		
 
 		//hitung diskon
 		$('#diskon').keydown(function(e) {
@@ -241,6 +255,18 @@ $(document).ready(function () {
 		
 		//tombol enter dp_bayar_enter
 		$('#dp_bayar_enter').on('click', function(e){
+		    var ttl_trkasir = document.getElementById('ttl_trkasir').value;
+			    ttl_trkasir = ttl_trkasir.replace(/\./g, "");
+    			ttl_trkasir = parseInt(ttl_trkasir);
+    			
+                var dp_bayar = document.getElementById('dp_bayar').value;
+			    dp_bayar = dp_bayar.replace(/\./g, "");
+			    dp_bayar = parseInt(dp_bayar);
+			    
+			    if(dp_bayar < ttl_trkasir){
+    			    alert(' Jumlah bayar lebih kecil dari Total Bayar..');
+    			}
+    			
 		    HitungOngkirDanDP();
 		})
 
@@ -268,27 +294,31 @@ $(document).ready(function () {
 	
 			var ttl_trkasir = document.getElementById('ttl_trkasir').value;
 			var dp_bayar = document.getElementById('dp_bayar').value;
+			dp_bayar = dp_bayar.replace(/\./g, "");
 			
 			if(ttl_trkasir == ""){
-			var ttl_trkasir = "0";
-			}else{
+			    var ttl_trkasir = "0";
 			}
 			
 			if(dp_bayar == ""){
-			var dp_bayar = "0";
-			}else{
+			    var dp_bayar = "0";
 			}
+			
+			
+					// 	var res1 = ttl_trkasir.replace(".", "");
+				// 	var res3 = dp_bayar.replace(".", "");
+					var res3 = ttl_trkasir.replace(/\./g, "");
 
-					var res1 = ttl_trkasir.replace(".", "");
-					var res3 = dp_bayar.replace(".", "");
-
-					var res1x = res1.replace(".", "");
-					var res3x = res3.replace(".", "");
+				// 	var res1x = res1.replace(".", "");
+				// 	var res3x = res3.replace(".", "");
+					var res3x = dp_bayar.replace(/\./g, "");
 					
-			var total2 = parseInt(res1x) - parseInt(res3x);
-
+// 			var total2 = parseInt(res1x) - parseInt(res3x);
+			var total2 = parseInt(res3x) - parseInt(res3);
+			
 			document.getElementById("dp_bayar").value = formatRupiah(dp_bayar);
 			document.getElementById("sisa_bayar").value = formatRupiah(total2);
+// 			document.getElementById("sisa_bayar").value = total2;
 	
 	}
 
