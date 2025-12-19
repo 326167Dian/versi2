@@ -44,6 +44,19 @@ echo "<script type='text/javascript'>alert('Nama Pelanggan dengan nomor telepon 
 	header('location:../../media_admin.php?module='.$module);
 	
 }
+// Input riwayat
+elseif ($module=='pelanggan' AND $act=='input_riwayat'){
+
+    mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO riwayat_pelanggan(id_pelanggan, tgl, diagnosa, tindakan, followup) VALUES('$_POST[id_pelanggan]','$_POST[tgl]','$_POST[diagnosa]','$_POST[tindakan]','$_POST[followup]')");
+    header('location:../../media_admin.php?module='.$module);
+}
+
+// Hapus riwayat
+elseif ($module=='pelanggan' AND $act=='hapus_riwayat'){
+
+    mysqli_query($GLOBALS["___mysqli_ston"], "DELETE FROM riwayat_pelanggan WHERE id = '$_GET[id]'");
+    header('location:../../media_admin.php?module='.$module);
+}
 //Hapus Proyek
 elseif ($module=='pelanggan' AND $act=='hapus'){
 

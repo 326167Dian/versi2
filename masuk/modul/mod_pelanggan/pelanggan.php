@@ -16,58 +16,96 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 ?>
 
 
-			<div class="box box-primary box-solid">
-				<div class="box-header with-border">
-					<h3 class="box-title">DATA PELANGGAN</h3>
-					<div class="box-tools pull-right">
-						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					</div><!-- /.box-tools -->
-				</div>
-				<div class="box-body table-responsive">
-					<a class='btn  btn-success btn-flat' href='?module=pelanggan&act=tambah'>TAMBAH</a>
-					<br><br>
-
-
-					<table id="example1" class="table table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>No</th>
-								<th>Nama Pelanggan</th>
-								<th>Telepon</th>
-								<th>Alamat</th>
-								<th>Keterangan</th>
-								<th width="70">Aksi</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-							$no = 1;
-							while ($r = mysqli_fetch_array($tampil_pelanggan)) {
-								echo "<tr class='warnabaris' >
-											<td>$no</td>           
-											 <td>$r[nm_pelanggan]</td>
-											 <td>$r[tlp_pelanggan]</td>
-											 <td>$r[alamat_pelanggan]</td>
-											 <td>$r[ket_pelanggan]</td>
-											 <td>
-											 <a href='?module=pelanggan&act=edit&id=$r[id_pelanggan]' title='EDIT' class='btn btn-warning btn-xs'>EDIT</a> 
-											 <a href=javascript:confirmdelete('$aksi?module=pelanggan&act=hapus&id=$r[id_pelanggan]') title='HAPUS' class='btn btn-danger btn-xs'>HAPUS</a>
-											 
-											</td>
-										</tr>";
-								$no++;
-							}
-							echo "</tbody></table>";
-							?>
-				</div>
-			</div>
+<div class='box box-primary box-solid'>
+    <div class='box-header with-border'>
+        <h3 class='box-title'>DATA PELANGGAN</h3>
+        <div class='box-tools pull-right'>
+            <button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>
+        </div><!-- /.box-tools -->
+    </div>
+    <div class='box-body table-responsive'>
+        <table id='tampil' class='table table-bordered table-striped'>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Telepon</th>
+                    <th>Alamat</th>
+                    <th>Keterangan</th>
+                    <th width='120'>Aksi</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
 
 
 <?php
 
 			break;
 
-		case "tambah":
+            $pel = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM pelanggan WHERE id_pelanggan='$_GET[id]'");
+            $pp = mysqli_fetch_array($pel);
+
+            echo "
+          <div class='box box-primary box-solid'>
+                <div class='box-header with-border'>
+                    <h3 class='box-title'>TAMBAH RIWAYAT - $pp[nm_pelanggan]</h3>
+                    <div class='box-tools pull-right'>
+                        <button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>
+                    </div><!-- /.box-tools -->
+                </div>
+                <div class='box-body table-responsive'>
+
+                        <form method=POST action='$aksi?module=pelanggan&act=input_riwayat' class='form-horizontal'>
+
+                              <input type=hidden name='id_pelanggan' value='$pp[id_pelanggan]'>
+
+                              <div class='form-group'>
+                                    <label class='col-sm-2 control-label'>Tgl</label>                
+                                     <div class='col-sm-3'>
+                                        <input type=date name='tgl' class='form-control' value='".date('Y-m-d')."' required>
+                                     </div>
+                              </div>
+
+                              <div class='form-group'>
+                                    <label class='col-sm-2 control-label'>Diagnosa</label>                
+                                     <div class='col-sm-6'>
+                                        <textarea name='diagnosa' class='form-control' rows='3' required></textarea>
+                                     </div>
+                              </div>
+
+                              <div class='form-group'>
+                                    <label class='col-sm-2 control-label'>Tindakan</label>                
+                                     <div class='col-sm-6'>
+                                        <textarea name='tindakan' class='form-control' rows='3' required></textarea>
+                                     </div>
+                              </div>
+
+                              <div class='form-group'>
+                                    <label class='col-sm-2 control-label'>Follow Up</label>                
+                                     <div class='col-sm-6'>
+                                        <textarea name='followup' class='form-control' rows='2'></textarea>
+                                     </div>
+                              </div>
+
+                              <div class='form-group'>
+                                    <label class='col-sm-2 control-label'></label>       
+                                        <div class='col-sm-5'>
+                                            <input class='btn btn-info' type=submit value=SIMPAN>
+                                            <input class='btn btn-primary' type=button value=BATAL onclick=self.history.back()>
+                                        </div>
+                                </div>
+                                
+                              </form>
+                              
+                </div> 
+                
+            </div>";
+
+
+            break;
+        case "riwayat":
 
 			echo "
 		  <div class='box box-primary box-solid'>
@@ -120,11 +158,10 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 							  </form>
 							  
 				</div> 
-				
+				</div>
 			</div>";
 
 
-			break;
 
 		case "edit":
 			$edit = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM pelanggan WHERE id_pelanggan='$_GET[id]'");
@@ -191,3 +228,30 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 	}
 }
 ?>
+
+<script>
+	$(document).ready(function() {
+		$('#tampil').DataTable({
+			processing: true,
+			serverSide: true,
+			ajax: {
+				"url": "modul/mod_pelanggan/pelanggan_serverside.php?action=table_data",
+				"dataType": "JSON",
+				"type": "POST"
+			},
+			columns: [
+				{ "data": "no", "className": 'text-center' },
+				{ "data": "nm_pelanggan" },
+				{ "data": "tlp_pelanggan" },
+				{ "data": "alamat_pelanggan" },
+				{ "data": "ket_pelanggan" },
+				{ "data": "aksi", "visible": <?= ($_SESSION['level'] == 'pemilik') ? 'true' : 'false'; ?>, "render": function(data, type, row){
+					var btn = "<div style='text-align:center'><a href='?module=pelanggan&act=edit&id="+data+"' title='EDIT' class='btn btn-warning btn-xs'>EDIT</a> "+
+					"<a href='?module=pelanggan&act=riwayat&id="+data+"' title='Riwayat' class='btn btn-info btn-xs'>RIWAYAT</a> "+
+					"<a href=javascript:confirmdelete('modul/mod_pelanggan/aksi_pelanggan.php?module=pelanggan&act=hapus&id="+data+"') title='HAPUS' class='btn btn-danger btn-xs'>HAPUS</a></div>";
+					return btn;
+				} }
+			]
+		});
+	});
+</script>
