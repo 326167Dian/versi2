@@ -29,7 +29,8 @@ if ($_GET['action'] == "table_data") {
     $dir = (isset($_POST['order']['0']['dir']) && strtolower($_POST['order']['0']['dir']) === 'asc') ? 'ASC' : 'DESC';
 
     if (empty($_POST['search']['value'])) {
-        $query = $db->query("SELECT * FROM pelanggan ORDER BY $order $dir LIMIT $limit OFFSET $start");
+        // always sort by id_pelanggan descending (largest first)
+        $query = $db->query("SELECT * FROM pelanggan ORDER BY id_pelanggan DESC LIMIT $limit OFFSET $start ");
     } else {
         $search = $db->real_escape_string($_POST['search']['value']);
         $query = $db->query("SELECT * FROM pelanggan 
@@ -37,7 +38,7 @@ if ($_GET['action'] == "table_data") {
             OR tlp_pelanggan LIKE '%$search%' 
             OR alamat_pelanggan LIKE '%$search%' 
             OR ket_pelanggan LIKE '%$search%' 
-            ORDER BY $order $dir LIMIT $limit OFFSET $start");
+            ORDER BY id_pelanggan DESC LIMIT $limit OFFSET $start");
 
         $querycount = $db->query("SELECT count(id_pelanggan) as jumlah FROM pelanggan 
             WHERE nm_pelanggan LIKE '%$search%' 
