@@ -10,7 +10,8 @@ if ($_GET['action'] == "table_data") {
         2 => 'tlp_pelanggan',
         3 => 'alamat_pelanggan',
         4 => 'ket_pelanggan',
-        5 => 'id_pelanggan',
+        5 => 'followup',
+        6 => 'id_pelanggan',
     );
 
     $aksi = "modul/mod_pelanggan/aksi_pelanggan.php";
@@ -57,6 +58,16 @@ if ($_GET['action'] == "table_data") {
             $nestedData['tlp_pelanggan'] = $value['tlp_pelanggan'];
             $nestedData['alamat_pelanggan'] = $value['alamat_pelanggan'];
             $nestedData['ket_pelanggan'] = $value['ket_pelanggan'];
+
+            // get latest followup (most recent created_at)
+            $followq = $db->query("SELECT followup, created_at FROM riwayat_pelanggan WHERE id_pelanggan = '".$value['id_pelanggan']."' ORDER BY created_at DESC LIMIT 1");
+            if ($followq && $followq->num_rows > 0) {
+                $fq = $followq->fetch_array();
+                $nestedData['followup'] = htmlspecialchars($fq['followup']);
+                $nestedData['followup'] .= "<br><small>" . $fq['created_at'] . "</small>";
+            } else {
+                $nestedData['followup'] = '';
+            }
 
             if(
                 isset($_SESSION['level']) && $_SESSION['level'] == 'pemilik'

@@ -35,7 +35,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 								<th>Nama Pelanggan</th>
 								<th>Telepon</th>
 								<th>Alamat</th>
-								<th>Keterangan</th>
+								<th>Follow Up</th>
 								<th width="70">Aksi</th>
 							</tr>
 						</thead>
@@ -68,7 +68,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 								"data": "alamat_pelanggan"
 							},
 							{
-								"data": "ket_pelanggan"
+								"data": "followup"
 							},
 							{
 								"data": "pilih",
