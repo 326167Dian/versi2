@@ -18,6 +18,18 @@ if ($cari > 0) {
     mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE trbmasuk_detail SET 
 										exp_date            = '$exp_date'
 										WHERE id_dtrbmasuk  = '$id_dtrbmasuk'");
+	// Update batch
+	$datetime = date('Y-m-d H:i:s', time());
+	$caribatch = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM batch 
+                            WHERE kd_barang='$kd_barang' AND kd_transaksi='$kd_trbmasuk'");
+    $ketemubatch = mysqli_num_rows($caribatch);
+    if($ketemubatch > 0){
+        $btc = mysqli_fetch_array($caribatch);
+        mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE batch SET
+                                                    exp_date    = '$exp_date'
+                                                    WHERE kd_barang     = '$kd_barang'
+                                                    AND kd_transaksi    = '$kd_trbmasuk'");
+    }									
 }
 else {
     $order  = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM ordersdetail 
@@ -104,6 +116,25 @@ else {
 										'$waktu'
 										)");
 										
-	
+										
+	// Insert batch
+	$datetime = date('Y-m-d H:i:s', time());
+    mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO batch(
+                                        tgl_transaksi,
+                                        no_batch,
+										exp_date,
+										qty,
+										satuan,
+										kd_transaksi,
+										kd_barang,
+										status)
+								  VALUES('$datetime',
+								        '$odt[no_batch]',
+										'$exp_date',
+										'$odt[qty_dtrbmasuk]',
+										'$odt[sat_dtrbmasuk]',
+										'$kd_trbmasuk',
+										'$odt[kd_barang]',
+										'masuk')");
 }
 ?>
