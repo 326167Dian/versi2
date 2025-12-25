@@ -25,7 +25,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 					</div><!-- /.box-tools -->
 				</div>
 				<div class="box-body table-responsive">
-					<a class='btn  btn-success btn-flat' href='?module=orders&act=tambah'>TAMBAH</a>
+					<a class='btn  btn-success btn-flat' href='?module=orders&act=tambah'>(F4) TAMBAH</a>
 					<div></div>
 					<p>
 					<p>
@@ -190,7 +190,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 										</select>
 											</p>
 											<div class='buttons'>
-												<button type='button' class='btn btn-primary right-block' onclick='simpan_transaksi();'>SIMPAN TRANSAKSI</button>
+												<button type='button' class='btn btn-primary right-block' onclick='simpan_transaksi();'>(F3) SIMPAN TRANSAKSI</button>
 												&nbsp&nbsp&nbsp
 												<input class='btn btn-danger' type='button' value=BATAL onclick=self.history.back()>
 											</div>
@@ -264,7 +264,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 											<input type=text name='hrgsat_dtrbmasuk' id='hrgsat_dtrbmasuk' class='form-control' autocomplete='off'>
 											</p>
 												<div class='buttons'>
-													<button type='button' class='btn btn-success right-block' onclick='simpan_detail();'>SIMPAN DETAIL</button>
+													<button type='button' class='btn btn-success right-block' onclick='simpan_detail();'>(F1)SIMPAN DETAIL</button>
 												</div>
 										</div>
 										
@@ -354,7 +354,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 											<textarea name='ket_trbmasuk' id='ket_trbmasuk' class='form-control' rows='2'>$re[ket_trbmasuk]</textarea>
 											</p>
 											<div class='buttons'>
-											  <button type='button' class='btn btn-primary right-block' onclick='simpan_transaksi();'>SIMPAN TRANSAKSI</button>
+											  <button type='button' class='btn btn-primary right-block' onclick='simpan_transaksi();'>(F3) SIMPAN TRANSAKSI</button>
 												&nbsp&nbsp&nbsp
 												<input class='btn btn-danger' type='button' value=BATAL onclick=self.history.back()>
 											</div>
@@ -419,7 +419,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 											<input type=text name='hrgsat_dtrbmasuk' id='hrgsat_dtrbmasuk' class='form-control' autocomplete='off'>
 											</p>
 												<div class='buttons'>
-													<button type='button' class='btn btn-success right-block' onclick='simpan_detail();'>SIMPAN DETAIL</button>
+													<button type='button' class='btn btn-success right-block' onclick='simpan_detail();'>(F1) SIMPAN DETAIL</button>
 												</div>
 										</div>
 										
@@ -1044,4 +1044,29 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
         
         document.getElementById("qty_dtrbmasuk").value = (qtygrosir_dtrbmasuk * konversi);
 	});
+
+	document.addEventListener('keydown', function(event) {
+        if (event.key === 'F1' || event.keyCode === 112) {
+            event.preventDefault(); // Mencegah help browser muncul
+            simpan_detail();
+        }
+    });
+	
+	   
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'F3' || event.keyCode === 114) {
+            event.preventDefault(); // Mencegah help browser muncul
+            // simpan_detail();
+            simpan_transaksi();
+        }
+    });
+    
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'F4' || event.keyCode === 115) {
+            event.preventDefault(); // Mencegah action default
+            // Shortcut untuk case "tambah"
+            window.location = '?module=orders&act=tambah';
+        }
+    });
+
 </script>
