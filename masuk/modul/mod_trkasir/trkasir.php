@@ -33,7 +33,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
                     </div><!-- /.box-tools -->
                 </div>
                 <div class="box-body table-responsive">
-                    <a class='btn  btn-success btn-flat' href='?module=trkasir&act=tambah'>TAMBAH</a>
+                    <a class='btn  btn-success btn-flat' href='?module=trkasir&act=tambah'>(F4)TAMBAH</a>
                     <td><a class='btn btn-danger btn-flat' href='modul/mod_trkasir/barangmacet.php' target='_blank'>DOWNLOAD STOK MACET</a></td>
                     <?php
                     $lupa = $_SESSION['level'];
@@ -2157,5 +2157,12 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
         }
     });
     
-    
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'F4' || event.keyCode === 115) {
+            event.preventDefault(); // Mencegah action default
+            // Shortcut untuk case "tambah"
+            window.location = '?module=trkasir&act=tambah';
+        }
+    });
+
 </script>
