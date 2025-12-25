@@ -37,7 +37,7 @@ else {
     $stokakhir      = $stok_barang + $qty_dtrbmasuk;
     
     // $harga_satuan   = round((($rst['hna'] * 1.11) * (1-($odt['diskon']/100))) / $odt['konversi']);
-    $harga_satuan   = round($rst['hna'] / $odt['konversi']);
+    $harga_satuan   = round(($rst['hna'] / $odt['konversi']) * (1-($odt['diskon']/100)) * 1.11);
     // $total_harga    = round(($rst['hna'] * 1.11) * $odt['qtygrosir_dtrbmasuk']) * (1 - ($odt['diskon']/100));
     $total_harga    = round(($rst['hna'] * 1.11) * $_POST['qtygrosir_dtrbmasuk']) * (1 - ($odt['diskon']/100));
     $waktu          = date('Y-m-d H:i:s', time());
@@ -105,7 +105,25 @@ else {
 										'$waktu'
 										)");
 										
-	
+	// Insert batch
+	$datetime = date('Y-m-d H:i:s', time());
+    mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO trbmasuk_detail(
+                                        tgl_transaksi,
+                                        no_batch,
+										exp_date,
+										qty,
+										satuan,
+										kd_transaksi,
+										kd_barang,
+										status)
+								  VALUES('$datetime',
+								        '$no_batch',
+										'$odt[exp_date]',
+										'$odt[qty_dtrbmasuk]',
+										'$odt[sat_dtrbmasuk]',
+										'$kd_trbmasuk',
+										'$odt[kd_barang]',
+										'masuk')");
    
 }
 ?>

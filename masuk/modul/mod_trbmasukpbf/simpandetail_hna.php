@@ -31,7 +31,8 @@ if ($cari > 0) {
                             WHERE kd_barang='$kd_barang' AND kd_trbmasuk='$kd_trbmasuk'");
     
     while($sq = mysqli_fetch_array($ceksql)){
-        $harga_satuan   = round($hnasat_dtrbmasuk / $sq['konversi']);
+        // $harga_satuan   = round($hnasat_dtrbmasuk / $sq['konversi']);
+        $harga_satuan   = round(($hnasat_dtrbmasuk / $sq['konversi']) * (1-($sq['diskon']/100)) * 1.11);
         $harga_grosir   = round($hnasat_dtrbmasuk );
         $total_harga    = round(($hnasat_dtrbmasuk * 1.11) * $sq['qty_grosir']) * (1 - ($sq['diskon']/100));
         
@@ -64,7 +65,8 @@ else {
     $qty_dtrbmasuk  = $_POST['qtygrosir_dtrbmasuk'] * $odt['konversi'];
     // $harga_satuan   = round((($hnasat_dtrbmasuk * 1.11) * (1-($odt['diskon']/100))) / $odt['konversi']);
     // $total_harga    = (($hnasat_dtrbmasuk * 1.11) * $odt['qtygrosir_dtrbmasuk']) * (1 - ($odt['diskon']/100));
-    $harga_satuan   = round($hnasat_dtrbmasuk / $odt['konversi']);
+    // $harga_satuan   = round($hnasat_dtrbmasuk / $odt['konversi']);
+    $harga_satuan   = round(($hnasat_dtrbmasuk / $odt['konversi']) * (1-($odt['diskon']/100)) * 1.11);
     $total_harga    = round(($hnasat_dtrbmasuk * 1.11) * $_POST['qtygrosir_dtrbmasuk']) * (1 - ($odt['diskon']/100));
     $harga_grosir   = round($hnasat_dtrbmasuk );
     

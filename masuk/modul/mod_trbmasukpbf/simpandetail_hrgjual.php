@@ -50,7 +50,8 @@ else {
     
     // $harga_satuan   = round((($odt['hnasat_dtrbmasuk'] * 1.11) * (1-($odt['diskon']/100))) / $odt['konversi']);
     // $total_harga    = (($odt['hnasat_dtrbmasuk'] * 1.11) * $odt['qtygrosir_dtrbmasuk']) * (1 - ($odt['diskon']/100));
-    $harga_satuan   = round($rst['hna'] / $odt['konversi']);
+    // $harga_satuan   = round($rst['hna'] / $odt['konversi']);
+    $harga_satuan   = round(($rst['hna'] / $odt['konversi']) * (1-($odt['diskon']/100)) * 1.11);
     $total_harga    = round(($rst['hna'] * 1.11) * $_POST['qtygrosir_dtrbmasuk']) * (1 - ($odt['diskon']/100));
     
     $waktu          = date('Y-m-d H:i:s', time());
@@ -68,6 +69,7 @@ else {
     //                                             WHERE id_barang = '$odt[id_barang]'");
     mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE barang SET 
                                                 stok_barang     = '$stokakhir',
+                                                hrgsat_barang   = '$harga_satuan',
                                                 hrgjual_barang  = '$hrgjual_barang'
                                                 WHERE id_barang = '$odt[id_barang]'");
 
