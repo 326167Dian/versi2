@@ -15,11 +15,11 @@ Date_Default_timezone_set('Asia/jakarta');
 $server = "localhost";
 $user = "root";
 $password = "";
-$database = "mysifabest";
+$database = "azzam";
 set_time_limit(1800);
 
 ($GLOBALS["___mysqli_ston"] = mysqli_connect($server, $user, $password)) or die("Koneksi gagal");
 mysqli_select_db($GLOBALS["___mysqli_ston"], $database) or die("Database tidak ditemukan");
 // $koneksi = new mysqli($server, $user, $password) or die("Koneksi gagal");
-$db = mysqli_connect('localhost', 'root', '', 'mysifabest'); 
+$db = mysqli_connect('localhost', 'root', '', 'azzam'); 
 ?>
