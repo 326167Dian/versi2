@@ -39,17 +39,22 @@
 			include "../../../configurasi/koneksi.php";
 			include "../../../configurasi/fungsi_rupiah.php";
 
-			$kd_trbmasuk = $_POST['kd_trbmasuk'];
+			$kd_trbmasuk = isset($_POST['kd_trbmasuk']) ? $_POST['kd_trbmasuk'] : '';
 
 			//AMBIL DATA UNTUK FOOTER
 			$dfoot = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM orders WHERE kd_trbmasuk='$kd_trbmasuk'");
 			$rf = mysqli_fetch_array($dfoot);
-			$dp_bayar = format_rupiah($rf['dp_bayar']);
+			if ($rf && isset($rf['dp_bayar'])) {
+				$dp_bayar = format_rupiah($rf['dp_bayar']);
+			} else {
+				$dp_bayar = format_rupiah(0);
+			}
 
 			$sumprice = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT kd_trbmasuk, SUM(hrgttl_dtrbmasuk) as grandnya FROM ordersdetail 
 							WHERE kd_trbmasuk='$kd_trbmasuk'");
 			$ttlprice = mysqli_fetch_array($sumprice);
-			$grandnya = format_rupiah($ttlprice['grandnya']);
+			$grandRaw = isset($ttlprice['grandnya']) ? $ttlprice['grandnya'] : 0;
+			$grandnya = format_rupiah($grandRaw);
 
 			$noreq = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM ordersdetail 
 							   WHERE kd_trbmasuk='$kd_trbmasuk'
