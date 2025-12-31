@@ -31,7 +31,7 @@ switch($_GET[act]){
 					<br><br>
 					
 					
-					<table id="example1" class="table table-bordered table-striped" >
+					<table id="cek" class="table table-bordered table-striped" >
 						<thead>
 							<tr>
 								<th>No</th>
@@ -45,33 +45,7 @@ switch($_GET[act]){
 								<th width="70">Aksi</th>
 							</tr>
 						</thead>
-						<tbody>
-						<?php 
-								$no=1;
-								while ($r=mysqli_fetch_array($tampil_cekdarah)){
-                                    $pelanggan = mysqli_query($GLOBALS["___mysqli_ston"],"select * from pelanggan where id_pelanggan='$r[id_pelanggan]' ");
-                                    $pasien = mysqli_fetch_array($pelanggan);
-									echo "<tr class='warnabaris' >
-											<td>$no</td>           
-											 <td>$pasien[nm_pelanggan]</td>
-											 <td>$r[petugas]</td>
-											 <td>$r[gula]</td>
-											 <td>$r[asamurat]</td>
-											 <td>$r[kolesterol]</td>
-											 <td>$r[tensi]</td>
-											 <td>$r[waktu]</td>
-											 <td><a href='?module=cekdarah&act=edit&id=$r[id_cekdarah]' title='EDIT' class='btn btn-warning btn-xs'>EDIT</a> 
-											 <a href=javascript:confirmdelete('$aksi?module=cekdarah&act=hapus&id=$r[id_cekdarah]') title='HAPUS' class='btn btn-danger btn-xs'>HAPUS</a>";
-											 ?><a class='btn btn-success btn-xs' onclick="window.open('modul/mod_cekdarah/print.php?id=<?php echo $r['id_cekdarah'] ?>',
-                                            'nama window','width=500,height=600,toolbar=no,location=no,directories=no,status=no,menubar=no, ' +
-                                            'scrollbars=no,resizable=yes,copyhistory=no')">PRINT</a>
-                                    <?php
-                                    echo" 		</td>
-										</tr>";
-								$no++;
-								}
-						echo "</tbody></table>";
-					?>
+					</table>
 				</div>
 			</div>	
              
@@ -231,4 +205,28 @@ switch($_GET[act]){
       todayHighlight: true,
   });
  });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#cek").DataTable({
+            serverSide: true,
+            ajax: {
+                "url": "modul/mod_cekdarah/cek_serverside.php?action=table_data",
+                "dataType": "JSON",
+                "type": "POST"
+            },
+            columns: [
+                { "data": "no", "className": "text-center" },
+                { "data": "nm_pelanggan", "className": "text-left" },
+                { "data": "petugas", "className": "text-left" },
+                { "data": "gula", "className": "text-right" },
+                { "data": "asamurat", "className": "text-right" },
+                { "data": "kolesterol", "className": "text-right" },
+                { "data": "tensi", "className": "text-center" },
+                { "data": "waktu", "className": "text-center" },
+                { "data": "aksi", "className": "text-center" }
+            ]
+        });
+    });
 </script>
