@@ -78,7 +78,55 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 
                     </form>
                 </div>
-
+<div>
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+							<tr>
+                                <td>No.</td>
+                                <td>Tanggal SO</td>
+                                <td>Jenis SO</td>
+                                <td>Minus</td>
+                                <td>Lebih</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $no = 1;
+                            $so = $db->query("SELECT DISTINCT tgl_stokopname,shift FROM stok_opname ORDER BY tgl_stokopname DESC");
+                            while ($r = $so->fetch_array()) {
+                                if($r['shift']==0){
+                                    $jenis="SO BULANAN";
+                                }elseif($r['shift']==1){
+                                    $jenis="PAGI";
+                                }elseif($r['shift']==2){
+                                    $jenis="SORE";
+                                }elseif($r['shift']==3){
+                                    $jenis="MALAM";
+                                }
+                                $minus = $db->query("select sum(ttl_hrgbrg) as min from stok_opname
+                                where ttl_hrgbrg<0 and shift='$shift' and tgl_stokopname='$r[tgl_stokopname]' ");
+                                $kurang = $minus->fetch_array();
+                                $kurmin = format_rupiah(round($kurang['min'], 0));
+                                
+                                $lebih = $db->query("select sum(ttl_hrgbrg) as plus from stok_opname
+                                where ttl_hrgbrg>0 and shift='$shift' and tgl_stokopname='$r[tgl_stokopname]' ");
+                                $lbh = $lebih->fetch_array();
+                                $plus = format_rupiah(round($lbh['plus'], 0));
+                                echo "
+                                <tr>
+                                    <td>$no</td>
+                                    <td>$r[tgl_stokopname]</td>
+                                    <td>$jenis</td>
+                                    <td>$kurmin</td>
+                                    <td>$plus</td>
+                                </tr>
+                                ";
+                                $no++;
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <script>
                 function exportExcel() {
@@ -119,7 +167,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 
 
 
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example2" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>No</th>
