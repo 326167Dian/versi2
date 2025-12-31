@@ -66,11 +66,27 @@ if ($_GET['action'] == "table_data") {
 
             $lupa = isset($_SESSION['level']) ? $_SESSION['level'] : '';
             if ($lupa == 'pemilik') {
-                $nestedData['aksi'] = "<a href='?module=shiftkerja&act=editkoreksi&id={$value['id_shift']}' title='EDIT' class='glyphicon glyphicon-pencil'>&nbsp</a> ";
-                $nestedData['aksi'] .= "<a href=javascript:confirmdelete('{$aksi}?module=shiftkerja&act=hapus&id={$value['id_shift']}') title='HAPUS' class='glyphicon glyphicon-remove'>&nbsp</a> ";
-                $nestedData['aksi'] .= "<a class='glyphicon glyphicon-print' onclick=\"javascript:window.open('modul/mod_shiftkerja/laporanshiftday.php?idshift={$value['id_shift']}','nama window','width=500,height=600,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no')\">&nbsp</a>";
+                $nestedData['aksi'] = "<div class='dropdown'>
+  <button class='btn btn-default dropdown-toggle' type='button' id='dropdownMenu{$value['id_shift']}' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>
+    action
+    <span class='caret'></span>
+  </button>
+  <ul class='dropdown-menu' aria-labelledby='dropdownMenu{$value['id_shift']}'>
+    <li style='background-color:yellow;'><a href='?module=shiftkerja&act=editkoreksi&id={$value['id_shift']}'>EDIT</a></li>
+    <li style='background-color:red;'><a href=javascript:confirmdelete('{$aksi}?module=shiftkerja&act=hapus&id={$value['id_shift']}')>HAPUS</a></li>
+    <li style='background-color:aqua;'><a href='modul/mod_shiftkerja/laporanshiftday.php?idshift={$value['id_shift']}' target='_blanks'>LAPORAN</a></li>
+  </ul>
+</div>";
             } else {
-                $nestedData['aksi'] = "<a class='glyphicon glyphicon-print' onclick=\"javascript:window.open('modul/mod_shiftkerja/laporanshiftday.php?idshift={$value['id_shift']}','nama window','width=500,height=600,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no')\">&nbsp</a>";
+                $nestedData['aksi'] = "<div class='dropdown'>
+  <button class='btn btn-default dropdown-toggle' type='button' id='dropdownMenu{$value['id_shift']}' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>
+    action
+    <span class='caret'></span>
+  </button>
+  <ul class='dropdown-menu' aria-labelledby='dropdownMenu{$value['id_shift']}'>
+    <li style='background-color:aqua;'><a href='modul/mod_shiftkerja/laporanshiftday.php?idshift={$value['id_shift']}' target='_blanks'>LAPORAN</a></li>
+  </ul>
+</div>";
             }
 
             $data[] = $nestedData;
