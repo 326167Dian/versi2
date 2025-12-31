@@ -32,7 +32,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 					<br><br>
 
 
-					<table id="example1" class="table table-bordered table-striped">
+							<table id="shift" class="table table-bordered table-striped">
 						<thead>
 							<tr>
 								<th>No</th>
@@ -55,53 +55,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 								?>
 							</tr>
 						</thead>
-						<tbody>
-							<?php
-							$no = 1;
-							while ($r = mysqli_fetch_array($tampil_waktukerja)) {
-								$rupiahawal = format_rupiah($r['saldoawal']);
-								$rupiahakhir = format_rupiah($r['saldoakhir']);
-								$nshift = mysqli_query($GLOBALS["___mysqli_ston"], "select * from namashift where shift='$r[shift]'");
-								$w = mysqli_fetch_array($nshift);
-								
-								echo "<tr class='warnabaris' >
-											<td>$no</td>           
-											 <td>$r[petugasbuka]</td>
-											 <td>$r[petugastutup]</td>
-											 <td style='text-align:center;'>$w[nama_shift]</td>
-											 <td>$r[tanggal]</td>
-											 <td>$r[waktubuka]</td>
-											 <td>$r[waktututup]</td>
-											 <td align='center'>$rupiahawal</td>
-											 <td align='center'>$rupiahakhir</td>
-											 <td align='center'>$r[status]</td>";
-								$lupa = $_SESSION['level'];
-								if ($lupa == 'pemilik') {
-									echo "<td>
-									<a href='?module=shiftkerja&act=editkoreksi&id=$r[id_shift]' title='EDIT' class='glyphicon glyphicon-pencil'>&nbsp</a> 
-									
-									<a href=javascript:confirmdelete('$aksi?module=shiftkerja&act=hapus&id=$r[id_shift]') title='HAPUS' class='glyphicon glyphicon-remove'>&nbsp</a>
-									
-									<a class='glyphicon glyphicon-print' onclick=\"javascript:window.open('modul/mod_shiftkerja/laporanshiftday.php?idshift=$r[id_shift]','nama window','width=500,height=600,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no')\">&nbsp</a>
-											 </td> ";
-								} else {
-									echo "<td>
-									<a class='glyphicon glyphicon-print' onclick=\"javascript:window.open('modul/mod_shiftkerja/laporanshiftday.php?idshift=$r[id_shift]','nama window','width=500,height=600,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no')\">&nbsp</a>
-											 </td> ";
-								}
-
-
-								echo " <!--	 <td><a href='?module=satuan&act=edit&id=$r[id_satuan]' title='EDIT' class='btn btn-warning btn-xs'>EDIT</a> 
-											 <a href=javascript:confirmdelete('$aksi?module=satuan&act=hapus&id=$r[id_satuan]') title='HAPUS' class='btn btn-danger btn-xs'>HAPUS</a>
-											 </td>
-										-->	 
-											
-										</tr>";
-								$no++;
-							}
-				// 			echo "</tbody></table>";
-							?>
-						</tbody>
+						
 					</table>
 				</div>
 			</div>
@@ -360,6 +314,32 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 			format: 'yyyy-mm-dd',
 			autoclose: true,
 			todayHighlight: true,
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function() {
+		$("#shift").DataTable({
+			serverSide: true,
+			ajax: {
+				"url": "modul/mod_shiftkerja/shift_serverside.php?action=table_data",
+				"dataType": "JSON",
+				"type": "POST"
+			},
+			columns: [
+				{ "data": "no", "className": "text-center" },
+				{ "data": "petugasbuka", "className": "text-left" },
+				{ "data": "petugastutup", "className": "text-left" },
+				{ "data": "nama_shift", "className": "text-center" },
+				{ "data": "tanggal", "className": "text-center" },
+				{ "data": "waktubuka", "className": "text-center" },
+				{ "data": "waktututup", "className": "text-center" },
+				{ "data": "saldoawal", "className": "text-right", "render": function(data, type, row){ return formatRupiah(data); } },
+				{ "data": "saldoakhir", "className": "text-right", "render": function(data, type, row){ return formatRupiah(data); } },
+				{ "data": "status", "className": "text-center" },
+				{ "data": "aksi", "className": "text-center" }
+			]
 		});
 	});
 </script>
