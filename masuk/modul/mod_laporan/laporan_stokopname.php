@@ -79,6 +79,9 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
                     </form>
                 </div>
 <div>
+     <div>
+        <p style="text-align:center">Ringkasan Stok Opname 3 bulan yang lalu</p>
+    </div>
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
 							<tr>
@@ -92,7 +95,11 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
                         <tbody>
                             <?php
                             $no = 1;
-                            $so = $db->query("SELECT DISTINCT tgl_stokopname,shift FROM stok_opname ORDER BY tgl_stokopname DESC");
+                            $tgl_awal = date('Y-m-d', time());                            
+                            $tgl_akhir = date('Y-m-d', strtotime('-120 days', strtotime( $tgl_awal)));      
+                            $so = $db->query("SELECT DISTINCT tgl_stokopname, shift FROM stok_opname
+                                    WHERE tgl_stokopname BETWEEN '$tgl_akhir' AND '$tgl_awal'
+                                    ORDER BY tgl_stokopname DESC");     
                             while ($r = $so->fetch_array()) {
                                 if($r['shift']==0){
                                     $jenis="SO BULANAN";
