@@ -62,13 +62,19 @@
             <?php
             $tgl_awal = $_GET['tgl_awal'];
             $tgl_akhir = $_GET['tgl_akhir'];
+            $shift = $_GET['shift'];
+             if ($_GET['shift']<4){
+	            $shift = $_GET['shift'];}
+                else {
+                    $shift=("1,2,3");
+                }
     
             $no = 1;
             $query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT *, 
                     SUM(trkasir_detail.qty_dtrkasir) as q30,
                     SUM(trkasir_detail.hrgttl_dtrkasir) as om30 FROM trkasir_detail
                     JOIN trkasir ON trkasir.kd_trkasir = trkasir_detail.kd_trkasir
-                    WHERE trkasir.tgl_trkasir BETWEEN '$tgl_awal' AND '$tgl_akhir'
+                    WHERE shift in ($shift) AND trkasir.tgl_trkasir BETWEEN '$tgl_awal' AND '$tgl_akhir'
                     GROUP BY trkasir_detail.kd_barang");
                     
             
@@ -89,9 +95,56 @@
                     $no++;
                 
             endwhile;
+            
             ?>
         </tbody>
     </table>
+    <?php
+            $tgl_awal = $_GET['tgl_awal'];
+            $tgl_akhir = $_GET['tgl_akhir'];
+            $shift = $_GET['shift'];
+             if ($_GET['shift']<4){
+	            $shift = $_GET['shift'];}
+                else {
+                    $shift=("1,2,3");
+                }
+     $tamtot = mysqli_query($GLOBALS["___mysqli_ston"],"select * from carabayar ");
+$no3 = 1;
+
+$grandtotal = 0;   // <-- tambahkan ini
+
+while ($tt=mysqli_fetch_array($tamtot)){
+
+    $tcb= $db->query( "
+        SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg1
+        FROM trkasir 
+        WHERE shift in ($shift) 
+        and tgl_trkasir BETWEEN '$tgl_awal' AND '$tgl_akhir' 
+        AND id_carabayar='$tt[id_carabayar]'
+    ");
+
+    $tamtcb = $tcb->fetch_array();
+    $dtamtcb = format_rupiah($tamtcb['ttlskrg1']);
+
+    echo "
+        <p style='font-weight:bold;'>Pembayaran $tt[nm_carabayar] : Rp. $dtamtcb </p>
+    ";
+
+    $no3++;
+
+    // jumlahkan grand total
+    $grandtotal += $tamtcb['ttlskrg1'];
+}
+
+    $dtgrandtotal = format_rupiah($grandtotal);
+
+    echo "
+        <p style='font-weight:bold; font-size:24px;'>
+            GRAND TOTAL PENJUALAN SHIFT $shift: Rp. $dtgrandtotal
+        </p>
+    ";
+
+    ?>
 </body>
 
 </html>

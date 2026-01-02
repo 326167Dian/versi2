@@ -79,9 +79,10 @@ else{
             <script>
                 function exportExcel(){
                     let tgl_awal = $('#tgl_awal').val()
-                    let tgl_akhir = $('#tgl_akhir').val()                 
+                    let tgl_akhir = $('#tgl_akhir').val()
+                    let shift = $('#shift').val()
 
-                    window.open('modul/mod_lappenjualan/lappenjualan_excel.php?tgl_awal='+tgl_awal+'&tgl_akhir='+tgl_akhir, '_blank');
+                    window.open('modul/mod_lappenjualan/lappenjualan_excel.php?tgl_awal='+tgl_awal+'&tgl_akhir='+tgl_akhir+'&shift='+shift, '_blank');
                 }
             </script>
 
