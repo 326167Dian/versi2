@@ -94,12 +94,17 @@ else{
                 $tgl_awal  = $_POST['tgl_awal'];
                 $tgl_akhir = $_POST['tgl_akhir'];
                 $shift     = $_POST['shift'];
+                 if ($_POST['shift']<4){
+	            $shift = $_POST['shift'];}
+                else {
+                    $shift=("1,2,3");
+                }
                 ?>
 
                 <div class="box box-primary box-solid">
                     <div class="box-header with-border">
                         <h3 class="box-title">
-                            TAMPIL PENJUALAN PRODUK TANGGAL <?php echo $tgl_awal; ?> s/d <?php echo $tgl_akhir; ?>
+                            TAMPIL PENJUALAN PRODUK SHIFT <?php echo $shift; ?> TANGGAL <?php echo $tgl_awal; ?> s/d <?php echo $tgl_akhir; ?>
                         </h3>
                         <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse">
@@ -112,8 +117,7 @@ else{
 
                         <?php
                         $tabelbesar = $db->query("
-                            SELECT * FROM trkasir 
-                            WHERE tgl_trkasir BETWEEN '$tgl_awal' AND '$tgl_akhir'
+                            SELECT * FROM trkasir WHERE shift in ($shift) AND tgl_trkasir BETWEEN '$tgl_awal' AND '$tgl_akhir'
                         ");
 
                         $no = 1;
@@ -134,12 +138,12 @@ else{
                             <table class='table table-bordered table-striped'>
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Nama Barang</th>
-                                        <th>Qty</th>
-                                        <th>Satuan</th>
-                                        <th>Harga Jual</th>
-                                        <th>Total Harga</th>
+                                        <th style='text-align:center;'>No</th>
+                                        <th style='text-align:center;'>Nama Barang</th>
+                                        <th style='text-align:center;'>Qty</th>
+                                        <th style='text-align:center;'>Satuan</th>
+                                        <th style='text-align:center;'>Harga Jual</th>
+                                        <th style='text-align:center;'>Total Harga</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -223,7 +227,7 @@ else{
                 }
                 $dtgrandtotal = format_rupiah($grandtotal);
                 echo "
-                    <p style='font-weight:bold; font-size:16px;'>GRAND TOTAL PENJUALAN : Rp. $dtgrandtotal </p>";
+                    <p style='font-weight:bold; font-size:16px;'>GRAND TOTAL PENJUALAN SHIFT $shift: Rp. $dtgrandtotal </p>";
                 break;
     }
 
