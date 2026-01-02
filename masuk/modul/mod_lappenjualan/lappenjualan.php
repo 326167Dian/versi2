@@ -22,7 +22,7 @@ else{
                 </div>
                 <div class="box-body">
 
-                    <form method="POST" action="modul/mod_laporan/tampil_penjualan.php" target="_blank" enctype="multipart/form-data" class="form-horizontal">
+                    <form method="POST" action="?module=lappenjualan&act=view" target="_blank" enctype="multipart/form-data" class="form-horizontal">
 
                         </br></br>
 
@@ -79,7 +79,7 @@ else{
             <script>
                 function exportExcel(){
                     let tgl_awal = $('#tgl_awal').val()
-                    let tgl_akhir = $('#tgl_akhir').val()
+                    let tgl_akhir = $('#tgl_akhir').val()                 
 
                     window.open('modul/mod_lappenjualan/lappenjualan_excel.php?tgl_awal='+tgl_awal+'&tgl_akhir='+tgl_akhir, '_blank');
                 }
@@ -89,9 +89,149 @@ else{
             <?php
 
             break;
+            case "view":
 
+                $tgl_awal  = $_POST['tgl_awal'];
+                $tgl_akhir = $_POST['tgl_akhir'];
+                $shift     = $_POST['shift'];
+                ?>
+
+                <div class="box box-primary box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            TAMPIL PENJUALAN PRODUK TANGGAL <?php echo $tgl_awal; ?> s/d <?php echo $tgl_akhir; ?>
+                        </h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="box-body">
+
+                        <?php
+                        $tabelbesar = $db->query("
+                            SELECT * FROM trkasir 
+                            WHERE tgl_trkasir BETWEEN '$tgl_awal' AND '$tgl_akhir'
+                        ");
+
+                        $no = 1;
+
+                        while ($rb = $tabelbesar->fetch_array()) {
+                            $carabayar = $db->query("SELECT * FROM carabayar WHERE id_carabayar='$rb[id_carabayar]'");  
+                            $bc = $carabayar->fetch_array();
+                            echo "
+                            <table style='margin-bottom:10px;'>
+                                <tr><td style='width:40%;'>No</td><td>:</td><td>$no</td></tr>
+                                <tr><td>Nama Pelanggan</td><td>:</td><td>$rb[nm_pelanggan]</td></tr>
+                                <tr><td>Kode Transaksi</td><td>:</td><td>$rb[kd_trkasir]</td></tr>
+                                <tr><td>Metode Bayar</td><td>:</td><td>$bc[nm_carabayar]</td></tr>                                
+                            </table>
+                            ";
+
+                            echo "
+                            <table class='table table-bordered table-striped'>
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Barang</th>
+                                        <th>Qty</th>
+                                        <th>Satuan</th>
+                                        <th>Harga Jual</th>
+                                        <th>Total Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                            ";
+
+                            $no2 = 1;
+                            $tabelkecil = $db->query("
+                                SELECT * FROM trkasir_detail 
+                                WHERE kd_trkasir = '$rb[kd_trkasir]'
+                            ");
+
+                            while ($rk = $tabelkecil->fetch_array()) {
+                                $harga_jual = format_rupiah($rk['hrgjual_dtrkasir']);
+                                $subtotal = format_rupiah($rk['qty_dtrkasir'] * $rk['hrgjual_dtrkasir']);                              
+                                echo "
+                                    <tr>
+                                        <td>$no2</td>
+                                        <td>$rk[nmbrg_dtrkasir]</td>
+                                        <td style='text-align:center;'>$rk[qty_dtrkasir]</td>
+                                        <td style='text-align:center;'>$rk[sat_dtrkasir]</td>
+                                        <td style='text-align:right;'>$harga_jual</td>
+                                        <td style='text-align:right;'>$subtotal</td>
+                                    </tr>
+                                ";
+
+                                $no2++;
+                            }
+
+                            echo "
+                                </tbody>
+                            ";
+
+                            $diskon1 = $db->query("select sum(hrgttl_dtrkasir) as total1 from trkasir_detail where kd_trkasir='$rb[kd_trkasir]'");
+                            $diskon2 = $diskon1->fetch_array();
+                            $diskon = $diskon2['total1'] - $rb['ttl_trkasir'];
+                            echo "    
+                               
+                                    <tr>
+                                        <th colspan='5' style='text-align:center;'>Sub Total</th>
+                                        <th style='text-align:right;'>" . format_rupiah($diskon2['total1']) . "</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan='5' style='text-align:center;'>Diskon</th>
+                                        <th style='text-align:right;'>" . format_rupiah($diskon) . "</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan='5' style='text-align:center;'>TOTAL</th>
+                                        <th style='text-align:right;'>" . format_rupiah($rb['ttl_trkasir']) . "</th>
+                                    </tr>
+                               
+                            </table>
+                            <hr>
+                            ";
+
+                            $no++;
+                        }
+                        ?>
+
+                    </div>
+                </div>
+
+                <?php
+              $tamtot = mysqli_query($GLOBALS["___mysqli_ston"],"select * from carabayar ");
+              $no3 = 1;
+              if ($_POST['shift']<4){
+	            $shift = $_POST['shift'];}
+                else {
+                    $shift=("1,2,3");
+                }
+                while ($tt=mysqli_fetch_array($tamtot)){
+                $tcb= $db->query( "SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg1
+                                        FROM trkasir WHERE shift in ($shift) and tgl_trkasir  BETWEEN '$tgl_awal' AND '$tgl_akhir' 
+                                        AND id_carabayar='$tt[id_carabayar]'   ");
+                $tamtcb = $tcb->fetch_array();
+                $dtamtcb = format_rupiah($tamtcb['ttlskrg1']);
+                echo "
+                    <p style='font-weight:bold;'>Pembayaran $tt[nm_carabayar] : Rp. $dtamtcb </p>
+                ";  
+                $no3++;
+                $grandtotal += $tamtcb['ttlskrg1'];
+                }
+                $dtgrandtotal = format_rupiah($grandtotal);
+                echo "
+                    <p style='font-weight:bold; font-size:16px;'>GRAND TOTAL PENJUALAN : Rp. $dtgrandtotal </p>";
+                break;
     }
+
 }
+
+    
+
+
 ?>
 
 <script type="text/javascript">
