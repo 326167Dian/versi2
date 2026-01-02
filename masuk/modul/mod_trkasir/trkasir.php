@@ -227,75 +227,75 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
                         
                             ?>                            
                     </table>
-                    <!--<table class="table table-striped table-bordered table-responsive">-->
-                    <!--            <h4>Ringkasan Transaksi</h4>-->
-                    <!--            <thead>-->
-                    <!--            <th width="150px">Tipe Transaksi</th>-->
-                    <!--            <th>Nilai Transaksi</th>-->
-                    <!--            <th>Shift Pagi</th>-->
-                    <!--            <th>Shift Sore</th>-->
-                    <!--            </thead>-->
-                    <!--            <tbody>-->
-                                <?php
-                        //         $tgl_awal = date('Y-m-d');
-                        //         $tamtot = mysqli_query($GLOBALS["___mysqli_ston"],"select * from carabayar");
-                        //         while ($tt=mysqli_fetch_array($tamtot)){
-
-                        //             $tcb= $db->query( "SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg1
-                        //                 FROM trkasir WHERE tgl_trkasir='$tgl_awal' AND id_carabayar='$tt[id_carabayar]'");
-                        //             $tamtcb = $tcb->fetch_array();
-                        //             $dtamtcb = format_rupiah($tamtcb['ttlskrg1']);
-
-                        //             $shift1= $db->query( "SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg1
-                        //                 FROM trkasir WHERE tgl_trkasir='$tgl_awal' AND id_carabayar='$tt[id_carabayar]' and shift=1 ");
-                        //             $pagi1 = $shift1->fetch_array();
-                        //             $pagi = format_rupiah($pagi1['ttlskrg1']);
-
-                        //             $shift2= $db->query( "SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg1
-                        //                 FROM trkasir WHERE tgl_trkasir='$tgl_awal' AND id_carabayar='$tt[id_carabayar]' and shift=2 ");
-                        //             $sore1 = $shift2->fetch_array();
-                        //             $sore = format_rupiah($sore1['ttlskrg1']);
-
-                        //             echo"
-                        //   <tr><td width='150 px'>$tt[nm_carabayar]</td>
-                        //         <td>$dtamtcb</td>
-                        //         <td>$pagi</td>
-                        //         <td>$sore</td>
-                        //   </tr>
-                        //   ";
-                        //         }
-                                ?>
-                                <!--</tbody>-->
-                                <!--<tfoot>-->
-                                <?php
-                            //     $tgl_awal = date('Y-m-d');
-                            //     $tothari = $db->query("SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg4                                                              
-                            //                 FROM trkasir WHERE tgl_trkasir='$tgl_awal'");
-                            //     $arth = $tothari->fetch_array();
-                            //     $tdm = format_rupiah($arth['ttlskrg4']);
-
-                            //     $totpagi = $db->query("SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg4                                                              
-                            //                 FROM trkasir WHERE tgl_trkasir='$tgl_awal' and shift=1 ");
-                            //     $tpagi = $totpagi->fetch_array();
-                            //     $shiftpagi = format_rupiah($tpagi['ttlskrg4']);
-
-                            //     $totsore = $db->query("SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg4                                                              
-                            //                 FROM trkasir WHERE tgl_trkasir='$tgl_awal' and shift=2 ");
-                            //     $tsore = $totsore->fetch_array();
-                            //     $shiftsore = format_rupiah($tsore['ttlskrg4']);
-
-                            //     echo"
-                            // <tr style='background-color: #00fafa;font-size:20px;font-weight:bold;'>
-                            //     <td>TOTAL</td>                               
-                            //     <td>$tdm</td>
-                            //     <td>$shiftpagi</td>
-                            //     <td>$shiftsore</td>
-                            // </tr>";
-                                ?>
-                            <!--    </tfoot>-->
-                            <!--</table>-->
-                    
                     <table class="table table-striped table-bordered table-responsive">
+                    <h4>Ringkasan Transaksi</h4>
+                                <thead>
+                                <th width="150px">Tipe Transaksi</th>
+                                <th>Nilai Transaksi</th>
+                                <th>Shift Pagi</th>
+                                <th>Shift Sore</th>
+                                </thead>
+                                <tbody>
+                                <?php
+                                $tgl_awal = date('Y-m-d');
+                                $tamtot = mysqli_query($GLOBALS["___mysqli_ston"],"select * from carabayar");
+                                while ($tt=mysqli_fetch_array($tamtot)){
+
+                                    $tcb= $db->query( "SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg1
+                                        FROM trkasir WHERE tgl_trkasir='$tgl_awal' AND id_carabayar='$tt[id_carabayar]'");
+                                    $tamtcb = $tcb->fetch_array();
+                                    $dtamtcb = format_rupiah($tamtcb['ttlskrg1']);
+
+                                    $shift1= $db->query( "SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg1
+                                        FROM trkasir WHERE tgl_trkasir='$tgl_awal' AND id_carabayar='$tt[id_carabayar]' and shift=1 ");
+                                    $pagi1 = $shift1->fetch_array();
+                                    $pagi = format_rupiah($pagi1['ttlskrg1']);
+
+                                    $shift2= $db->query( "SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg1
+                                        FROM trkasir WHERE tgl_trkasir='$tgl_awal' AND id_carabayar='$tt[id_carabayar]' and shift=2 ");
+                                    $sore1 = $shift2->fetch_array();
+                                    $sore = format_rupiah($sore1['ttlskrg1']);
+
+                                    echo"
+                          <tr><td width='150 px'>$tt[nm_carabayar]</td>
+                                <td>$dtamtcb</td>
+                                <td>$pagi</td>
+                                <td>$sore</td>
+                          </tr>
+                          ";
+                                }
+                                ?>
+                                </tbody>
+                                <tfoot>
+                                <?php
+                                $tgl_awal = date('Y-m-d');
+                                $tothari = $db->query("SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg4                                                              
+                                            FROM trkasir WHERE tgl_trkasir='$tgl_awal'");
+                                $arth = $tothari->fetch_array();
+                                $tdm = format_rupiah($arth['ttlskrg4']);
+
+                                $totpagi = $db->query("SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg4                                                              
+                                            FROM trkasir WHERE tgl_trkasir='$tgl_awal' and shift=1 ");
+                                $tpagi = $totpagi->fetch_array();
+                                $shiftpagi = format_rupiah($tpagi['ttlskrg4']);
+
+                                $totsore = $db->query("SELECT id_trkasir, kd_trkasir, SUM(ttl_trkasir) as ttlskrg4                                                              
+                                            FROM trkasir WHERE tgl_trkasir='$tgl_awal' and shift=2 ");
+                                $tsore = $totsore->fetch_array();
+                                $shiftsore = format_rupiah($tsore['ttlskrg4']);
+
+                                echo"
+                            <tr style='background-color: #00fafa;font-size:20px;font-weight:bold;'>
+                                <td>TOTAL</td>                               
+                                <td>$tdm</td>
+                                <td>$shiftpagi</td>
+                                <td>$shiftsore</td>
+                            </tr>";
+                                ?>
+                               </tfoot>
+                            </table>
+                    
+                    <!-- <table class="table table-striped table-bordered table-responsive">
                         <h4>Ringkasan Transaksi</h4>
                         <thead>
                             <th width="150px">Tipe Transaksi</th>
@@ -325,7 +325,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
                                 <td><div id="totalKasirSore"></div></td>
                             </tr>
                         </tfoot>
-                    </table>        
+                    </table>         -->
                 </div>
                 <?php
                 $kom = $db->query("select sum(komisi) as tambahan from trkasir_detail join trkasir
